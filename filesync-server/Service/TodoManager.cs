@@ -5,11 +5,11 @@ using filesync_server.Models;
 
 namespace filesync_server.Services;
 
-public class TodoServiceManager
+public class TodoManager
 {
     private String todoPath = Path.Combine(".", "todo.json");
     private Dictionary<String, TodoItem> _items { get; set; }
-    public TodoServiceManager()
+    public TodoManager()
     {
         Console.WriteLine("TodoServiceManager.constructor");
         _items = new Dictionary<string, TodoItem>();

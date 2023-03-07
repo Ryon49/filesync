@@ -10,9 +10,9 @@ namespace filesync_server.Controllers;
 public class TodoController : ControllerBase
 {
 
-    private TodoServiceManager _todoManager;
+    private TodoManager _todoManager;
 
-    public TodoController(TodoServiceManager todoManager)
+    public TodoController(TodoManager todoManager)
     {
         _todoManager = todoManager;
     }

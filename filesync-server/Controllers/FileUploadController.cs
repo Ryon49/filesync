@@ -11,7 +11,7 @@ namespace filesync_server.Controllers;
 public class FileUploadController : ControllerBase
 {
     private ILogger<FileUploadController> _looger;
-    private DirectoryServiceManager _directoryManager;
+    private DirectoryManager _directoryManager;
 
     [HttpGet]
     public ActionResult Index() {

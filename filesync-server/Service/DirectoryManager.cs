@@ -1,9 +1,9 @@
 namespace filesync_server.Services;
 
-public class DirectoryServiceManager {
+public class DirectoryManager {
     private IDirectoryService _service;
 
-    public DirectoryServiceManager(IDirectoryService service) {
+    public DirectoryManager(IDirectoryService service) {
         _service = service;
     }
 }

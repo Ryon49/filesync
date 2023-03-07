@@ -29,7 +29,7 @@ if (builder.Environment.IsDevelopment())
 
 
 // Add services to the container.
-builder.Services.AddSingleton<TodoServiceManager>();
+builder.Services.AddSingleton<TodoManager>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
