@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.AspNetCore.Mvc;
 
 using filesync_server.Services;
@@ -41,7 +42,9 @@ public class FileController : ControllerBase
             Console.WriteLine(relativePath);
             _directoryManager.UpdateEntry(new StoredFile(){
                 SystemName = systemName,
-                UserName = formFile.FileName
+                UserName = formFile.FileName,
+                Size = formFile.Length,
+                LastModified = DateTime.Now,
             });
 
             using (var stream = new FileInfo(relativePath).Create()) {
@@ -51,4 +54,19 @@ public class FileController : ControllerBase
         }
         return Ok(byteUpload);
     }
+
+    [HttpGet("{path}")]
+    public FileResult DownloadFile(String path) {
+        StoredFile file = _directoryManager.Get(path);
+        String filePath = Path.Combine("storage", file.SystemName!);
+        String contentType = "";
+        new FileExtensionContentTypeProvider().TryGetContentType(file.UserName!, out contentType!);
+        if (contentType == null) {
+            contentType = "text/plain";
+        }
+        Console.WriteLine(contentType);
+        var f = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+        return new FileStreamResult(f, contentType!);
+    }
+
 }

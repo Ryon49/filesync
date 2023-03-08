@@ -1,14 +1,9 @@
-export default class StoredFile {
+
+type StoredFile = {
     systemName: string
     userName: string
-
-    constructor(props: StoredFileProps) {
-        this.systemName = props.systemName
-        this.userName = props.userName
-    }
+    size: number
+    lastModified: string
 }
 
-export type StoredFileProps = {
-    systemName: string
-    userName: string
-}
+export default StoredFile

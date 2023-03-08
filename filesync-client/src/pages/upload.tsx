@@ -72,6 +72,8 @@ export default function Page() {
             axios.post(resource, formdata)
                 .then((resp) => {
                     setDebugHTTPResult(resp.data)
+                    // Remove pending files when upload is complete
+                    setPending([])
                 }).catch((resp) => {
                     setDebugHTTPResult(`Error ${resp.data}`)
                 })

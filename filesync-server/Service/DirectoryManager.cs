@@ -20,4 +20,8 @@ public class DirectoryManager
     {
         return _service.FetchAll();
     }
+
+    public StoredFile Get(String path) {
+        return _service.Get(path);
+    }
 }

@@ -7,4 +7,6 @@ public interface IDirectoryService
     public void UpdateEntry(StoredFile directory);
 
     public List<StoredFile> FetchAll();
+
+    public StoredFile Get(String path);
 }

@@ -59,4 +59,8 @@ public class LocalDirectoryService : IDirectoryService
     {
         return _map.Values.ToList();
     }
+
+    public StoredFile Get(String path) {
+        return _map[path];
+    }
 }
