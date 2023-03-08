@@ -12,7 +12,7 @@ export default class Task {
         this.completed = completed
         this.archived = archived
     }
-
+    
     equals(otherTask: Task) {
         return this.id === otherTask.id &&
             this.title === otherTask.title &&
@@ -20,4 +20,12 @@ export default class Task {
             this.completed === otherTask.completed &&
             this.archived === otherTask.archived
     }
+}
+
+export type TaskProps = {
+    id: string
+    title: string
+    description: string
+    completed: boolean
+    archived: boolean
 }

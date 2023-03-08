@@ -6,13 +6,13 @@ namespace filesync_server.Models;
 public class TodoItemDto
 {
     [FromForm(Name = "id")]
-    public String Id { get; set; }
+    public String? Id { get; set; }
 
     [FromForm(Name = "title")]
-    public String Title { get; set; }
+    public String? Title { get; set; }
 
     [FromForm(Name = "description")]
-    public String Description { get; set; }
+    public String Description { get; set; } = String.Empty;
 
     [FromForm(Name = "completed")]
     public bool Completed { get; set; }

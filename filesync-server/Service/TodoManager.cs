@@ -7,7 +7,7 @@ namespace filesync_server.Services;
 
 public class TodoManager
 {
-    private String todoPath = Path.Combine(".", "todo.json");
+    private String todoPath = Path.Combine(".", "storage/system/todo.json");
     private Dictionary<String, TodoItem> _items { get; set; }
     public TodoManager()
     {
@@ -21,11 +21,6 @@ public class TodoManager
         {
             Load();
         }
-        // if (File.Exists(todoPath)) {
-        //     Load();
-        // } else {
-        //     Console.WriteLine("todo.json not exists");
-        // }
     }
 
     public void Flush()
@@ -53,11 +48,13 @@ public class TodoManager
         }
     }
 
-    public TodoItem Get(String id) {
+    public TodoItem Get(String id)
+    {
         return _items[id];
     }
 
-    public List<TodoItem> GetAll() {
+    public List<TodoItem> GetAll()
+    {
         return _items.Values.ToList();
     }
 

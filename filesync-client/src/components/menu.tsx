@@ -23,6 +23,11 @@ export default function NavMenu() {
                             </Link>
                         </li>
                         <li className="nav-item px-3">
+                            <Link className="nav-link" href="/list">
+                                <span className="oi oi-home" aria-hidden="true"></span> List
+                            </Link>
+                        </li>
+                        <li className="nav-item px-3">
                             <Link className="nav-link" href="/upload">
                                 <span className="oi oi-home" aria-hidden="true"></span> Upload
                             </Link>

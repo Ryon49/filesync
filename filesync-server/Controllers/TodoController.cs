@@ -43,7 +43,7 @@ public class TodoController : ControllerBase
     public IActionResult UpdateTodo(String id, [FromForm]TodoItemDto itemDto) {
         // TODO: Right now, we assume "id" always exists
         TodoItem item = _todoManager.Get(id);
-        item.Title = itemDto.Title;
+        item.Title = itemDto.Title!;
         item.Description = itemDto.Description;
         item.Completed = itemDto.Completed;
         item.Archived = itemDto.Archived;

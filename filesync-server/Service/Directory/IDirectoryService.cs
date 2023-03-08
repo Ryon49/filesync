@@ -1,7 +1,10 @@
+using filesync_server.Models;
+
 namespace filesync_server.Services;
 
-public interface IDirectoryService {
-    public void add(String key, String value);
+public interface IDirectoryService
+{
+    public void UpdateEntry(StoredFile directory);
 
-    public String lookup(String key);
+    public List<StoredFile> FetchAll();
 }

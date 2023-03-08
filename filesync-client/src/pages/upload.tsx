@@ -65,7 +65,7 @@ export default function Page() {
             }
 
             const serverAddr = process.env.SERVER_ADDR
-            const api = "api/upload"
+            const api = "api/file"
             const resource = `${serverAddr}/${api}`
 
             setDebugMessage(resource)
@@ -115,7 +115,7 @@ export default function Page() {
                         </tr>
                     </thead>
                     <tbody>
-                        {pending.map((f, index) => <EditableFileDisplay key={index} file={f} removeFileAt={()=>removeFileAt(index)}/>)}
+                        {pending.map((f, index) => <EditableFileDisplay key={index} index={index} file={f} removeFileAt={()=>removeFileAt(index)}/>)}
 
                     </tbody>
                 </table>
