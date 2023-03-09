@@ -23,7 +23,7 @@ if (builder.Environment.IsDevelopment())
                               .AllowAnyHeader();
                           }
                       });
-    
+
 });
 }
 
@@ -32,6 +32,8 @@ if (builder.Environment.IsDevelopment())
 builder.Services.AddSingleton<TodoManager>();
 builder.Services.AddSingleton<IDirectoryService, LocalDirectoryService>();
 builder.Services.AddSingleton<DirectoryManager>();
+builder.Services.AddSingleton<IFileService, LocalFileService>();
+builder.Services.AddSingleton<FileManager>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

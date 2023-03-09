@@ -21,7 +21,13 @@ public class DirectoryManager
         return _service.FetchAll();
     }
 
-    public StoredFile Get(String path) {
-        return _service.Get(path);
+    public StoredFile Get(String systemName)
+    {
+        return _service.Get(systemName);
+    }
+
+    public bool CheckExists(String systemName)
+    {
+        return _service.CheckExists(systemName);
     }
 }

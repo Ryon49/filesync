@@ -60,7 +60,13 @@ public class LocalDirectoryService : IDirectoryService
         return _map.Values.ToList();
     }
 
-    public StoredFile Get(String path) {
+    public StoredFile Get(String path)
+    {
         return _map[path];
+    }
+
+    public bool CheckExists(string systemName)
+    {
+        return _map.ContainsKey(systemName);
     }
 }

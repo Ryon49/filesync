@@ -8,5 +8,7 @@ public interface IDirectoryService
 
     public List<StoredFile> FetchAll();
 
-    public StoredFile Get(String path);
+    public StoredFile Get(String systemName);
+
+    public bool CheckExists(String systemName);
 }

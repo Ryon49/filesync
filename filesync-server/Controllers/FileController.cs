@@ -13,60 +13,67 @@ public class FileController : ControllerBase
 {
     // private ILogger<FileController> _looger;
     private DirectoryManager _directoryManager;
+    private FileManager _fileManager;
 
-    public FileController(DirectoryManager directoryManager) {
+    public FileController(DirectoryManager directoryManager, FileManager fileManager)
+    {
         _directoryManager = directoryManager;
+        _fileManager = fileManager;
     }
 
     [HttpGet]
-    public IActionResult Index() {
+    public IActionResult Index()
+    {
         return Ok(_directoryManager.FetchAll());
     }
 
     [HttpPost]
-    public async Task<IActionResult> UploadFiles([FromForm] FileUploadDto request) {
+    public async Task<IActionResult> UploadFiles([FromForm] FileUploadDto request)
+    {
         // check fileName duplication in storage
-        foreach (IFormFile formFile in request.Files) {
-            FileInfo file = new FileInfo(Path.Combine("storage", MyHash.sha256_hash(formFile.FileName)));
-            if (file.Exists) {
+        foreach (IFormFile formFile in request.Files)
+        {
+            String systemName = Path.Combine("storage", MyHash.sha256_hash(formFile.FileName));
+            if (_directoryManager.CheckExists(systemName))
+            {
                 Console.WriteLine($"File {formFile.FileName} has already existed");
                 return Ok($"File {formFile.FileName} has already existed");
             }
         }
 
         long byteUpload = 0;
-        foreach (IFormFile formFile in request.Files) {
+        foreach (IFormFile formFile in request.Files)
+        {
+            long bytes = await _fileManager.UploadFile(formFile);
+            if (bytes == 0)
+            {
+                // TODO: handle upload fail, possible adding different failure state.
+            }
             String systemName = MyHash.sha256_hash(formFile.FileName);
-            string relativePath = Path.Combine("storage", systemName);
-
-            Console.WriteLine(relativePath);
-            _directoryManager.UpdateEntry(new StoredFile(){
+            // Add a new entry to directory
+            _directoryManager.UpdateEntry(new StoredFile()
+            {
                 SystemName = systemName,
                 UserName = formFile.FileName,
                 Size = formFile.Length,
                 LastModified = DateTime.Now,
             });
-
-            using (var stream = new FileInfo(relativePath).Create()) {
-                await formFile.CopyToAsync(stream);
-            }
             byteUpload += formFile.Length;
         }
         return Ok(byteUpload);
     }
 
     [HttpGet("{path}")]
-    public FileResult DownloadFile(String path) {
-        StoredFile file = _directoryManager.Get(path);
-        String filePath = Path.Combine("storage", file.SystemName!);
-        String contentType = "";
-        new FileExtensionContentTypeProvider().TryGetContentType(file.UserName!, out contentType!);
-        if (contentType == null) {
-            contentType = "text/plain";
+    public ActionResult DownloadFile(String path)
+    {
+        if (!_directoryManager.CheckExists(path))
+        {
+            return NotFound("Target does not exists");
         }
-        Console.WriteLine(contentType);
-        var f = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-        return new FileStreamResult(f, contentType!);
+        StoredFile file = _directoryManager.Get(path);
+        String contentType = file.GetFileMimeType();
+        Stream fileStream = _fileManager.DownloadFile(file);
+        return new FileStreamResult(fileStream, contentType!);
     }
 
 }
