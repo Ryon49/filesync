@@ -1,19 +1,6 @@
+import { FileSizeFormatter } from "@/util/fileUtil"
+
 export default function EditableFileDisplay({ index, file, removeFileAt }: FileDisplayProps) {
-
-    const FileSizeFormatter = (size: number): string => {
-        const decimal = 0
-        if (size < 1024) {
-            return `${size} bytes`;
-        }
-        else if (size >= 1024 && size < 1048576) {
-            return `${(size / 1024).toFixed(decimal)} KB`;
-        }
-        else if (size >= 1048576) {
-            return `${(size / 1048576).toFixed(decimal)} MB`;
-        }
-        throw new Error("File size must be less than 1GB");
-    }
-
     return (
         <tr key={`editableFileRow${index}`} className="odd:bg-gray-200 even:bg-white">
             <th className="pr-8 text-left">{file.name}</th>
