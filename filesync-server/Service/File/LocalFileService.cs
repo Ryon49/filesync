@@ -7,19 +7,24 @@ public class LocalFileService : IFileService
 {
     private const String folder = "storage";
 
-    public Stream DownloadFile(StoredFile storedFile)
+    public async Task<Stream> DownloadFile(StoredFile storedFile)
     {
         String path = Path.Combine(folder, storedFile.SystemName!);
-        return new FileStream(path, FileMode.Open, FileAccess.Read);
+        return await Task.Run(() => new FileStream(path, FileMode.Open, FileAccess.Read));
     }
 
-    public async Task<long> UploadFile(IFormFile formFile)
+    public Task Init() {
+        // TODO: We can create the folder if not exists.
+        throw new NotImplementedException();
+    }
+
+    public async Task<long> UploadFile(StoredFile metadata, Stream inputStream)
     {
-        String path = Path.Combine(folder, MyHash.sha256_hash(formFile.FileName));
+        String path = Path.Combine(folder, metadata.SystemName!);
         using (var stream = File.Create(path))
         {
-            await formFile.CopyToAsync(stream);
+            await inputStream.CopyToAsync(stream);
         }
-        return formFile.Length;
+        return metadata.Size;
     }
 }

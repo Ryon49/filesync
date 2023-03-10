@@ -13,13 +13,13 @@ public class FileManager
         _fileService = fileService;
     }
 
-    public Task<long> UploadFile(IFormFile formFile)
+    public Task<long> UploadFile(StoredFile file, Stream inputStream)
     {
-        return _fileService.UploadFile(formFile);
+        return _fileService.UploadFile(file, inputStream);
     }
 
-    public Stream DownloadFile(StoredFile storedFile)
+    public async Task<Stream> DownloadFile(StoredFile storedFile)
     {
-        return _fileService.DownloadFile(storedFile);
+        return await _fileService.DownloadFile(storedFile);
     }
 }

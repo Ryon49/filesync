@@ -44,27 +44,28 @@ public class FileController : ControllerBase
         long byteUpload = 0;
         foreach (IFormFile formFile in request.Files)
         {
-            long bytes = await _fileManager.UploadFile(formFile);
-            if (bytes == 0)
-            {
-                // TODO: handle upload fail, possible adding different failure state.
-            }
             String systemName = MyHash.sha256_hash(formFile.FileName);
-            // Add a new entry to directory
-            _directoryManager.UpdateEntry(new StoredFile()
+            StoredFile newFile = new StoredFile()
             {
                 SystemName = systemName,
                 UserName = formFile.FileName,
                 Size = formFile.Length,
                 LastModified = DateTime.Now,
-            });
+            };
+            long bytes = await _fileManager.UploadFile(newFile, formFile.OpenReadStream());
+            if (bytes == 0)
+            {
+                // TODO: handle upload fail, possible adding different failure state.
+            }
+            // Add a new entry to directory
+            _directoryManager.UpdateEntry(newFile);
             byteUpload += formFile.Length;
         }
         return Ok(byteUpload);
     }
 
     [HttpGet("{path}")]
-    public ActionResult DownloadFile(String path)
+    public async Task<ActionResult> DownloadFile(String path)
     {
         if (!_directoryManager.CheckExists(path))
         {
@@ -72,7 +73,7 @@ public class FileController : ControllerBase
         }
         StoredFile file = _directoryManager.Get(path);
         String contentType = file.GetFileMimeType();
-        Stream fileStream = _fileManager.DownloadFile(file);
+        Stream fileStream = await _fileManager.DownloadFile(file);
         return new FileStreamResult(fileStream, contentType!);
     }
 

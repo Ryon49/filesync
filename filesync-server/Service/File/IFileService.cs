@@ -4,7 +4,7 @@ namespace filesync_server.Services;
 
 public interface IFileService
 {
-    public Stream DownloadFile(StoredFile path);
-
-    public Task<long> UploadFile(IFormFile formFile);
+    public Task<Stream> DownloadFile(StoredFile metadata);
+    public Task Init();
+    public Task<long> UploadFile(StoredFile metadata, Stream inputStream);
 }
