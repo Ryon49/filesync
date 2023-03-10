@@ -11,7 +11,10 @@ Because of the design, the server design is seperated into
 - The project only supports local storage for uploaded files
 
 ## Things to do
-- [ ] A Index/Directory KV service that stores the mapping of user given file and actual filename stored in the system. 
+- [x] A Index/Directory KV service that stores the mapping of user given file and actual filename stored in the system. 
     - Implement local storage (like a json file) right now
-- [ ] Support file deletion and download serive
+- [x] Support file deletion and download serive
+    - [x] Local storage
+    - [x] AWS S3
+- [ ] Allow for configuring whether to use local storage or S3.
 - [ ] Future me: Login service!!!
