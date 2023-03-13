@@ -18,3 +18,10 @@ Because of the design, the server design is seperated into
     - [x] AWS S3
 - [ ] Allow for configuring whether to use local storage or S3.
 - [ ] Future me: Login service!!!
+
+## Docker
+Run to build image and deploy in docker
+``` Shell
+docker build -t filesync-server
+docker run -it --rm -p 5000:80 --name filesync-server filesync-server
+```

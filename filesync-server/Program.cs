@@ -28,18 +28,19 @@ if (builder.Environment.IsDevelopment())
                           });
 
     });
-
-    // load development AWS credential 
-    var awsProfile = new ConfigurationBuilder()
-        .SetBasePath(builder.Environment.ContentRootPath)
-        .AddJsonFile("./.aws/credential.json", false, true).Build()
-        .GetSection("dev");
-    var credentials = new BasicAWSCredentials(
-        awsProfile.GetSection("aws_access_key_id").Get<String>(),
-        awsProfile.GetSection("aws_secret_access_key").Get<String>());
-    var region = RegionEndpoint.GetBySystemName(awsProfile.GetSection("region").Get<String>());
-    builder.Services.AddSingleton<AmazonS3Client>(provider => new AmazonS3Client(credentials, region));
 }
+
+// load AWS credential 
+Console.WriteLine(builder.Environment.ContentRootPath);
+var awsProfile = new ConfigurationBuilder()
+    .SetBasePath(builder.Environment.ContentRootPath)
+    .AddJsonFile(".secret/credential.json", false, true).Build()
+    .GetSection("aws");
+var credentials = new BasicAWSCredentials(
+    awsProfile.GetSection("aws_access_key_id").Get<String>(),
+    awsProfile.GetSection("aws_secret_access_key").Get<String>());
+var region = RegionEndpoint.GetBySystemName(awsProfile.GetSection("region").Get<String>());
+builder.Services.AddSingleton<AmazonS3Client>(provider => new AmazonS3Client(credentials, region));
 
 // Add services to the container.
 builder.Services.AddSingleton<TodoManager>();

@@ -11,6 +11,11 @@
     <PackageReference Include="AWSSDK.S3" Version="3.7.103.23" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <AWSCredential Include="$(MSBuildProjectDirectory)/.secret/credential.json" />
   </ItemGroup>
 
+  <Target Name="PublishAWSCredential" AfterTargets="Publish">
+    <Message Importance="high" Text="Copy AWS Credential to publish folder" />
+    <Copy SourceFiles="@(AWSCredential)" DestinationFolder="$(PublishDir)/.secret" />
+  </Target>
 </Project>
